@@ -1,0 +1,31 @@
+#%RAML 1.0
+version: 1.0
+baseUri: https://anypoint.mulesoft.com/mocking/api/v1/links/b8518f4b-a52d-4d81-9019-afbd121f3c91/ # 
+title: Yelp API
+description: API to call Yelp! to get list of featured events
+
+types:
+  EventInfo: !include /exchange_modules/c2796202-0026-470c-a483-dda7440bf1b6/hotel-data-types/1.0.2/datatypes/Event Data Type.raml
+  
+/events:
+  description: Get list of featured events in the area
+  get:
+    queryParameters:
+      location:
+        type: string
+        default: "avalon alpharetta ga"
+      category:
+        type: string
+        default: "food-and-drink, nightlife"
+      radius:
+        type: integer
+        default: 10000
+    
+    responses:
+      200:
+        body:
+          application/json:
+            displayName: List of event name and address
+            type: any
+
+      

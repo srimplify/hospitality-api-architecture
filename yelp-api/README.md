@@ -1,0 +1,1 @@
+Yelp API to fetch list of featured events in a location and by event category

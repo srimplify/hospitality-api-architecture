@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:request-config name="Yelp_HTTP_Req_config" doc:name="HTTP Request configuration" doc:id="d0a2ed6a-d458-44bc-ae30-9feb6d304d0f">
+		<http:request-connection protocol="HTTPS"/>
+	</http:request-config>
+	<flow name="yelp-implFlow" doc:id="8ba7e8c5-8ab6-4b13-87d3-c5016a21a24a" >
+		<http:request method="GET" doc:name="Request" doc:id="20d1ad80-b4ca-4d4c-be94-4752d4547c94" config-ref="Yelp_HTTP_Req_config" url="https://api.yelp.com/v3/events">
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	"Authorization" : "${yelp.api_token}"
+}]]]></http:headers>
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"limit" : "10",
+	"radius" : attributes.queryParams.radius,
+	"categories" : attributes.queryParams.category,
+	"location" : attributes.queryParams.location
+}]]]></http:query-params>
+		</http:request>
+	</flow>
+</mule>
